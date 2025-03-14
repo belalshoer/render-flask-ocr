@@ -22,8 +22,8 @@ def crop_image_yolo(image_path):
             max_width = -1
             selected_box = None
             for box in result.boxes:
-                res = box.xyxy[0]  # Get the bounding box coordinates
-                width = res[2].item() - res[0].item()  # Calculate width
+                res = box.xyxy[0]  
+                width = res[2].item() - res[0].item()  
                 if width > max_width:
                     max_width = width
                     selected_box = res
@@ -38,7 +38,6 @@ def crop_image_yolo(image_path):
 
 def detect_text_with_paddleocr(cropped_image):
 
-    # Initialize PaddleOCR (this may take a moment on the first run)
     ocr = PaddleOCR(use_angle_cls=True, lang='ar')
     image_cv = cv2.cvtColor(np.array(cropped_image), cv2.COLOR_RGB2BGR)
     results = ocr.ocr(image_cv, cls=True)
@@ -60,7 +59,6 @@ def ocr_endpoint():
         return jsonify({'error': 'No image provided'}), 400
 
     image_file = request.files['image']
-    # Save the uploaded image to a temporary location
     temp_dir = "/tmp"
     if not os.path.exists(temp_dir):
         os.makedirs(temp_dir)
